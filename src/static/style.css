@@ -1,58 +1,59 @@
-/* 1. Global Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-
+/* 1. Body mein Perspective add karein (3D ke liye zaroori hai) */
 body {
-    /* Dark Animated Gradient Background */
     background: linear-gradient(45deg, #0f0c29, #302b63, #24243e);
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    /* 3D depth create karne ke liye */
+    perspective: 1000px; 
 }
 
-/* 2. Glassmorphism Container */
+/* 2. Updated 3D Glassmorphism Container */
 .login-container {
     position: relative;
     width: 400px;
-    padding: 50px;
-    background: rgba(255, 255, 255, 0.05); /* Very light white */
-    backdrop-filter: blur(15px); /* Isse shishe jaisa dhundla effect aata hai */
+    padding: 100px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
-    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5);
     text-align: center;
+    
+    /* 3D Floating Animation */
+    animation: float3D 6s ease-in-out infinite;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    transform-style: preserve-3d;
 }
 
-/* 3. Title Style */
+/* Hover par 3D Rotation effect */
+.login-container:hover {
+    transform: rotateY(10deg) rotateX(5deg) scale(1.05);
+    box-shadow: -20px 20px 50px rgba(0, 210, 255, 0.3);
+}
+
+/* 3. Elements ko Depth dena (Z-axis) */
 h2 {
+    transform: translateZ(30px); /* Heading thodi bahar nikli hui lagegi */
     color: #fff;
-    font-size: 32px;
-    font-weight: 600;
-    letter-spacing: 2px;
-    margin-bottom: 30px;
-    text-transform: uppercase;
-    text-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+    text-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
-/* 4. Input Fields with Neon Glow */
+/* 4. Input Fields (Ab fully styled hain) */
 input {
     width: 100%;
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
+    background: rgba(255, 255, 255, 0.1); /* Glass effect */
+    border: 1px solid rgba(255, 255, 255, 0.2);
     outline: none;
     padding: 12px 20px;
     border-radius: 35px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
     margin-bottom: 20px;
     color: #fff;
     font-size: 16px;
-    transition: 0.3s;
+    transition: all 0.3s ease;
+    transform: translateZ(20px); /* 3D depth */
 }
 
 input::placeholder {
@@ -61,32 +62,82 @@ input::placeholder {
 
 input:focus {
     background: rgba(255, 255, 255, 0.2);
-    border: 1px solid #00d2ff; /* Neon Blue Border */
-    box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+    border: 1px solid #00d2ff;
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.4); /* Neon glow focus par */
+    transform: translateZ(40px); /* Focus par thoda aur bahar aayega */
 }
 
-/* 5. Neon Glowing Button */
+/* 5. Neon 3D Button */
 button {
     width: 100%;
     padding: 12px;
     margin-top: 10px;
-    background: #00d2ff; /* Basic Neon color */
     background: linear-gradient(to right, #00d2ff, #3a7bd5);
     color: #fff;
     border: none;
     border-radius: 35px;
     font-size: 18px;
     font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     cursor: pointer;
-    box-shadow: 0 0 20px rgba(0, 210, 255, 0.4);
-    transition: 0.4s;
+    box-shadow: 0 10px 20px rgba(0, 210, 255, 0.3);
+    transition: all 0.4s ease;
+    transform: translateZ(25px); /* Button ko 3D depth dena */
 }
 
 button:hover {
-    box-shadow: 0 0 40px rgba(0, 210, 255, 0.7);
-    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(0, 210, 255, 0.6);
+    transform: translateZ(50px) scale(1.05); /* Hover par bahar nikal kar aayega */
+    letter-spacing: 3px;
 }
 
 button:active {
-    transform: scale(0.98);
+    transform: translateZ(10px) scale(0.98); /* Click par andar dabega */
+}
+
+input, button {
+    transform: translateZ(20px); /* Inputs bhi thode 3D lagenge */
+}
+
+/* 4. 3D Floating Keyframes */
+@keyframes float3D {
+    0% {
+        transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+    }
+    50% {
+        transform: translateY(-20px) rotateX(5deg) rotateY(-5deg);
+    }
+    100% {
+        transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+    }
+}
+
+/* 5. Background mein 3D Shapes (Extra Look) */
+body::before, body::after {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+body::before {
+    background: linear-gradient(#ff0057, #e91e63);
+    top: 10%;
+    left: 20%;
+    animation: circleFloat 8s infinite;
+}
+
+body::after {
+    background: linear-gradient(#00d2ff, #3a7bd5);
+    bottom: 10%;
+    right: 20%;
+    animation: circleFloat 10s infinite reverse;
+}
+
+@keyframes circleFloat {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-50px) scale(1.2); }
 }
